@@ -1,0 +1,7 @@
+#' Grabbing data features
+#' 
+#' @param data.main Data frame containing Relative 
+#'     Abundances.
+#' @param data.covar Data frame containing covariance matrices
+#' @return 
+
