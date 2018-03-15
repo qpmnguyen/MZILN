@@ -7,7 +7,11 @@
 	* Includes which covariates to be put in the model
 	* Includes the number of taxa  
 	* Includes the number of samples  
-	* Data formatting is correct      
+	* Data formatting is correct
+	  * Add examples in the documentation
+	* Work with a viginette  
+	* Work with NAMESPACES.  
+	* Add
 * Functionality of the code  
 	* Proper cross-validation.  
 * Functionality of output  
@@ -18,3 +22,8 @@
 ### Stretch goals  
 * CRAN support.  
 * Implement Rcpp in order to improve performance.  
+
+
+### Specific features to be added
+* Add examples for each function documentation
+* Results for the features.confirm should be displayed in a nice text box

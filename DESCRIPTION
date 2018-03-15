@@ -5,7 +5,7 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Quang", "Nguyen", email = "Quang.P.Nguyen.GR@dartmouth.edu",role = c('aut','cre')), 
     person("Zhigang", "Li", email = "Zhigang.Li@dartmouth.edu",role = 'aut')) 
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: Quang Nguyen <Quang.P.Nguyen.GR@dartmouth.edu>
 Description: This multivariate zero-inflated logistic model is used to analyze microbiome
     relative abundance (RA) data. The model takes into account three specific features of 
     microbiome relative abundance data: compositionality, sparsity and high dimensionality.
