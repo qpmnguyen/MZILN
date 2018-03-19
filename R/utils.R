@@ -106,13 +106,14 @@ matrix.x.generation <- function(df.covar,j){
   covar <- t(covar)
   covar.list <- list() #empty list with all the covariance
   covar.list <- rep(list(covar), 259)
-  matrix.x <- as.matrix(bdiag(covar.list)) #the gigantic diagonal matrix
+  matrix.x <- as.matrix(Matrix::bdiag(covar.list)) #the gigantic diagonal matrix
   return(matrix.x)
 }
 
 #Reduce the size of the covariates according to what the user wants.
 covar.restriction <- function(df.covar, covariates){
-
+  covar.extract <- df.covar[,covariates]
+  return(covar.extract)
 }
 
 
