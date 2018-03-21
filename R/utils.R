@@ -33,7 +33,7 @@ zero.sub <- function(data.main){
       all.zero[i] <- NA
     }
   }
-  all.zero <- as.vector(na.omit(all.zero))
+  all.zero <- as.vector(stats::na.omit(all.zero))
   return(all.zero)
 }
 
@@ -47,7 +47,7 @@ zero.taxa <- function(data.main){
       all.zero[i] <- NA
     }
   }
-  all.zero <- as.vector(na.omit(all.zero))
+  all.zero <- as.vector(stats::na.omit(all.zero))
   return(all.zero)
 }
 

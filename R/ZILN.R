@@ -104,7 +104,7 @@ ZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam = 
     } else
       index[i] <- NA
   }
-  index <- na.omit(index)
+  index <- stats::na.omit(index)
   result <- result[-index]
   result <- as.data.frame(do.call("rbind",result))
   rownames(result) <- colnames(df.main)[-c(index,length(colnames(df.main)))]

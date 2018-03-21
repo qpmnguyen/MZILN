@@ -6,6 +6,17 @@
 \usage{
 remove.zeros(data.main)
 }
+\arguments{
+\item{data.main}{A data frame containing relative abundance data for all patients.}
+}
+\value{
+A data frame with all-zero columns and all-zero rows removed.
+}
 \description{
-Input cleaning
+\code{remove.zeros} takes in a microbiome relative abundance data frame and remove
+   all samples with zeros across all taxa and remove taxa with all zeros across samples
+}
+\examples{
+data(test.main) #loading the sample data included in ZILN
+remove.zeros(test.main)
 }

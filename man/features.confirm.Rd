@@ -14,9 +14,10 @@ features.confirm(data.main, data.covar, covariates = covar.name(data.covar))
 \item{covariates}{Names of covariates of interest.}
 }
 \value{
-Relevant information about the input, which include: data format, concordance between
-    data frames, number of subjects, 10 subject IDs, total input covariates, covariates of interest,
-    Number of taxa, first 10 taxa names, number of zero subjects, number of zero taxa.
+Relevant information about the input printed to the console which include: data format,
+    concordance between data frames, number of subjects, 10 subject IDs, total input
+    covariates, covariates of interest, Number of taxa, first 10 taxa names, number of zero subjects,
+    number of zero taxa.
 }
 \description{
 Confirmation of data features
@@ -31,4 +32,10 @@ ZILN generally takes three main arguments: First, a relative abundance
     be the rownames of the data frame and each column should represent either a taxa's
     RA or a covariate value. This function checks all of those required features, display
     them as well as check whether or not the formatting is correct.
+}
+\examples{
+    #loading data frames
+    data(test.main)
+    data(test.covariates)
+    features.confirm(test.main, test.covariates)
 }
