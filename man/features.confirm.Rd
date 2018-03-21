@@ -4,14 +4,15 @@
 \alias{features.confirm}
 \title{Confirmation of data features}
 \usage{
-features.confirm(data.main, data.covar, covariates = covar.name(data.covar))
+features.confirm(df.main, df.covar, covariates = covar.name(df.covar))
 }
 \arguments{
-\item{data.main}{Data frame containing Relative Abundances for each sample.}
+\item{df.main}{Data frame containing Relative Abundances for each sample.}
 
-\item{data.covar}{Data frame containing covariance data for each sample.}
+\item{df.covar}{Data frame containing covariance data for each sample.}
 
-\item{covariates}{Names of covariates of interest.}
+\item{covariates}{Names of covariates of interest. The default is all covariates
+in \code{df.covar}}
 }
 \value{
 Relevant information about the input printed to the console which include: data format,
@@ -23,9 +24,9 @@ Relevant information about the input printed to the console which include: data 
 Confirmation of data features
 }
 \details{
-ZILN generally takes three main arguments: First, a relative abundance
-    of all taxa per subject, which is \code{data.main}. Second, a separate
-    data frame containing all covariates by subject, which is \code{data.covar}.
+MZILN generally takes three main arguments: First, a relative abundance
+    of all taxa per subject, which is \code{df.main}. Second, a separate
+    data frame containing all covariates by subject, which is \code{df.covar}.
     Third, an optional vector containing the names of a subset of covariates that is
     of specific interest \code{covariates}. The default mode for \code{covariates}
     is the entire columns of covariates in the data frame. ZILN expects subject ids to
@@ -34,8 +35,8 @@ ZILN generally takes three main arguments: First, a relative abundance
     them as well as check whether or not the formatting is correct.
 }
 \examples{
-    #loading data frames
-    data(test.main)
-    data(test.covariates)
-    features.confirm(test.main, test.covariates)
+#loading data frames
+data(test.main)
+data(test.covariates)
+features.confirm(test.main, test.covariates, covariates = c("covar1","covar4"))
 }

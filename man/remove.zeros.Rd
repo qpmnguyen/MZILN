@@ -4,10 +4,10 @@
 \alias{remove.zeros}
 \title{Input cleaning}
 \usage{
-remove.zeros(data.main)
+remove.zeros(df.main)
 }
 \arguments{
-\item{data.main}{A data frame containing relative abundance data for all patients.}
+\item{df.main}{A data frame containing relative abundance data for all patients.}
 }
 \value{
 A data frame with all-zero columns and all-zero rows removed.
@@ -17,6 +17,6 @@ A data frame with all-zero columns and all-zero rows removed.
    all samples with zeros across all taxa and remove taxa with all zeros across samples
 }
 \examples{
-data(test.main) #loading the sample data included in ZILN
+data(test.main) #loading the sample data included in MZILN
 remove.zeros(test.main)
 }

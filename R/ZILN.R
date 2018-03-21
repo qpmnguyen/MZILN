@@ -3,14 +3,16 @@
 ####ZILN Main function ---------------------------------------------------####
 
 #main ZILN function ----------------------------------------------------####
-#' ZILN (Zero inflated Logistic Normal Regression)
+#' MZILN (Multivariate Zero inflated Logistic Normal Regression)
 #'
 #' @export
 #'
+#' @name MZILN.main
+#' @aliases MZILN.main
 #' @description ZILN is based upon the Zero Inflated Logistic Normal Regression
 #' for microbiome relative abundance data prepared by Dr. Zhigang Li.
-#' @param  df.main Data frame of patient relative abundance data
-#' @param  df.covar Data frame of patient covariates
+#' @param  df.main Data frame of relative abundance data
+#' @param  df.covar Data frame of covariate data
 #' @param  covariates Specific covariates of interest. The default is all covariates
 #'     in \code{df.covar}
 #' @param  n.lam Number of \code{lambda} values to control the regularization as documented
@@ -24,8 +26,30 @@
 #' @return A list containing: \code{results} - a data frame of regression coefficients for each
 #'     covariate of interest (as columns) per taxa (as rows); and \code{crossvalidation} - a data
 #'     frame of each \code{lambda} value and the mean MSE of each value across cross validation folds
+#' @examples
+#' data(test.main)
+#' data(test.covariates)
+#' MZILN.obj <- MZILN.main(test.main, test.covariates, covariates = c("covar1","covar4"),
+#'                           n.lam = 200, lam.min.ratio = 0.0001, reg.method = "mcp", n.folds = 5)
+#' #accessing the results - beta values of covariates per taxa
+#' MZILN.obj$results
+#' #Plotting the crossvalidation results for 5 fold cross validation
+#' plot(MZILN.obj$crossvalidation)
+#'
+#' @references
+#' Douglas Bates and Martin Maechler (2017). Matrix: Sparse and Dense Matrix
+#' Classes and Methods. R package version 1.2-12.\url{https://CRAN.R-project.org/package=Matrix}
+#'
+#' Jason Ge, Xingguo Li, Mengdi Wang, Tong Zhang, Han Liu and Tuo Zhao
+#' (2017). picasso: Pathwise Calibrated Sparse Shooting Algorithm. R package
+#' version 1.2.0. \url{https://CRAN.R-project.org/package=picasso}
+#'
+#' Vincent Goulet, Christophe Dutang, Martin Maechler, David Firth, Marina
+#' Shapira and Michael Stadelmann (2017). expm: Matrix Exponential, Log,
+#' 'etc'. R package version 0.999-2. \url{https://CRAN.R-project.org/package=expm}
+#'
 
-ZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam = 200,
+MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam = 200,
                       lam.min.ratio = 0.0001,
                       reg.method = 'mcp', n.folds = 5){
 
