@@ -1,29 +1,15 @@
-# ZILN
+# MZILN
 ## A multivariate zero-inflated logistic model for microbiome relative abundance data
 
-### Things needed to be developed   
-* Functionality to clean the data (remove all zero rows and all zero columns)  
-* Functionality for input data 
-	* Includes which covariates to be put in the model
-	* Includes the number of taxa  
-	* Includes the number of samples  
-	* Data formatting is correct
-	  * Add examples in the documentation
-	* Work with a viginette  
-	* Work with NAMESPACES.  
-	* Add
-* Functionality of the code  
-	* Proper cross-validation.  
-* Functionality of output  
-	* Includes the lambda curve  
-	* Includes the taxa names divided by the number of possible covariates   
-	* Includes the option of seeking for possible covariates and
+This is a work in progress package for the statistical model presented in the paper "Conditional regression based on a multivariate zero-inflated logistic normal model for microbiome relative abundance data" ([in pre-print](https://arxiv.org/abs/1709.07798v2)).  
 
-### Stretch goals  
-* CRAN support.  
-* Implement Rcpp in order to improve performance.  
+### Features being worked on:
+* Fixing utility functions necessary for package deployment.  
+* Reproducible testing units.  
+* Testing with different types of data sets.  
+* Testing with real data sets.  
+* Finish with documentation.  
 
-
-### Specific features to be added
-* Add examples for each function documentation
-* Results for the features.confirm should be displayed in a nice text box
+### Stretch goals
+* CRAN support  
+* RCppEigen for improved performance.  

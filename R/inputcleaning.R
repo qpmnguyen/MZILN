@@ -55,8 +55,8 @@ features.confirm <- function(df.main, df.covar, covariates = covar.name(df.covar
   }
   cat("Number of taxa \n", ntaxa(df.main), "\n\n")
   cat("First 10 Taxa Names \n", utils::head(taxa.name(df.main), n = 10L), "\n\n")
-  cat("Number of all zero subjects \n", length(zero.sub(df.main)), "\n\n")
-  cat("Number of all zero taxa \n", length(zero.taxa(df.main)))
+  cat("Number of all zero subjects \n\n", length(zero.sub(df.main)), "\n\n")
+  cat("Number of all zero taxa \n\n", length(zero.taxa(df.main)))
   if (length(zero.sub(df.main)) != 0 | length(zero.taxa(df.main)) != 0){
     message("You should use the remove.zeros function to take care of all zero
               taxa and all zero subjects")
