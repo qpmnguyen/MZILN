@@ -4,19 +4,30 @@
 \alias{remove.zeros}
 \title{Input cleaning}
 \usage{
-remove.zeros(df.main)
+remove.zeros(df.main,df.covar)
 }
 \arguments{
 \item{df.main}{A data frame containing relative abundance data for all patients.}
+
+\item{df.covar}{A data frame containing covariate data for all patients.}
 }
 \value{
-A data frame with all-zero columns and all-zero rows removed.
+A list containing \code{main} - the relative abundance data frame and \code{covariates}
+   - the covariates data frame with all-zero columns and all-zero rows removed.
 }
 \description{
-\code{remove.zeros} takes in a microbiome relative abundance data frame and remove
-   all samples with zeros across all taxa and remove taxa with all zeros across samples
+\code{remove.zeros} takes in a microbiome relative abundance data frame and
+   a patient covariate data frame and remove all samples with zeros across all taxa and
+   remove taxa with all zeros across samples
 }
 \examples{
 data(test.main) #loading the sample data included in MZILN
-remove.zeros(test.main)
+data(test.covariates)
+#introducing zeros in test.main in a random column and in a random row
+test.main[12,] <- rep(0,ncol(test.main))
+test.main[,24] <- rep(0,nrow(test.main))
+proc.data <- remove.zeros(test.main,test.covariates)
+main <- proc.data$main #getting the relative abundance data frame
+covar <- proc.data$covariates #getting the covariate data frame
+MZILN::features.confirm(main,covar) #recheck the features of the results.
 }

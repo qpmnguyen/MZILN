@@ -52,35 +52,39 @@ zero.taxa <- function(data.main){
 }
 
 
-#utilities for ZILN main
-
-#this function is used when the last taxon is zero
-defining.row.1 <- function(x,y){
-  row <- rep(0, 259)
+# Utilities for ZILN main
+# taxa.num is defined locally in the MZILN.main function.
+# The functions below should inherit taxa.num variable defined locally.
+# this function is used when the last taxon is zero
+# The inheritance method is to define an environment which is the parent into which the expression is called.
+# this means that the 'local'environment is treated as the default environment for these functions, which
+# are defined outside of the parent function but called inside the parernt function.
+defining.row.1 <- function(x,y,env = parent.frame()){
+  row <- rep(0, (env$taxa.num)-1)
   row[x] <- 1
   row[y] <- -1
   return(row)
 }
 
 #when the last taxon is non-zero
-defining.row.2 <- function(x){
-  row <- rep(0, 259)
+defining.row.2 <- function(x, env = parent.frame()){
+  row <- rep(0, (env$taxa.num)-1)
   row[x] <- 1
   return(row)
 }
 
 # generating the matrix a for one patient
-matrix.a.generation <- function(nonzero){
-  if (max(nonzero) == 260){
+matrix.a.generation <- function(nonzero,env=parent.frame()){
+  if (max(nonzero) == env$taxa.num){
     nonzero.loop <- nonzero[-length(nonzero)] #took off the last element
-    matrix.a <- matrix(nrow = length(nonzero.loop), ncol = 259)
+    matrix.a <- matrix(nrow = length(nonzero.loop), ncol = (env$taxa.num)-1)
     for (i in (1:length(nonzero.loop))){
       matrix.a[i,] <- defining.row.2(nonzero.loop[i])
     }
 
   } else {
     nonzero.loop <- nonzero
-    matrix.a <- matrix(nrow = length(nonzero.loop)-1, ncol = 259)
+    matrix.a <- matrix(nrow = length(nonzero.loop)-1, ncol = (env$taxa.num)-1)
     for (k in (1:(length(nonzero.loop)-1))){
       matrix.a[k,] <- defining.row.1(nonzero.loop[k],nonzero.loop[length(nonzero.loop)])
     }
@@ -101,11 +105,11 @@ log.trans.generation <- function(df,j,nonzero){
 }
 
 #generating matrix x for one patient
-matrix.x.generation <- function(df.covar,j){
+matrix.x.generation <- function(df.covar,j,env=parent.frame()){
   covar <- as.matrix(c(1,as.numeric(as.vector(df.covar[j,]))))
   covar <- t(covar)
   covar.list <- list() #empty list with all the covariance
-  covar.list <- rep(list(covar), 259)
+  covar.list <- rep(list(covar), (env$taxa.num)-1)
   matrix.x <- as.matrix(Matrix::bdiag(covar.list)) #the gigantic diagonal matrix
   return(matrix.x)
 }

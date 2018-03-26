@@ -55,8 +55,8 @@ features.confirm <- function(df.main, df.covar, covariates = covar.name(df.covar
   }
   cat("Number of taxa \n", ntaxa(df.main), "\n\n")
   cat("First 10 Taxa Names \n", utils::head(taxa.name(df.main), n = 10L), "\n\n")
-  cat("Number of all zero subjects \n\n", length(zero.sub(df.main)), "\n\n")
-  cat("Number of all zero taxa \n\n", length(zero.taxa(df.main)))
+  cat("Number of all zero subjects \n", length(zero.sub(df.main)), "\n\n")
+  cat("Number of all zero taxa \n", length(zero.taxa(df.main)), "\n\n")
   if (length(zero.sub(df.main)) != 0 | length(zero.taxa(df.main)) != 0){
     message("You should use the remove.zeros function to take care of all zero
               taxa and all zero subjects")
@@ -70,18 +70,33 @@ features.confirm <- function(df.main, df.covar, covariates = covar.name(df.covar
 #' Input cleaning
 #'
 #' @export
-#' @usage remove.zeros(df.main)
+#' @usage remove.zeros(df.main,df.covar)
 #' @param df.main A data frame containing relative abundance data for all patients.
-#' @description  \code{remove.zeros} takes in a microbiome relative abundance data frame and remove
-#'    all samples with zeros across all taxa and remove taxa with all zeros across samples
-#' @return A data frame with all-zero columns and all-zero rows removed.
+#' @param df.covar A data frame containing covariate data for all patients.
+#' @description  \code{remove.zeros} takes in a microbiome relative abundance data frame and
+#'    a patient covariate data frame and remove all samples with zeros across all taxa and
+#'    remove taxa with all zeros across samples
+#' @return A list containing \code{main} - the relative abundance data frame and \code{covariates}
+#'    - the covariates data frame with all-zero columns and all-zero rows removed.
 #' @examples
 #' data(test.main) #loading the sample data included in MZILN
-#' remove.zeros(test.main)
+#' data(test.covariates)
+#' #introducing zeros in test.main in a random column and in a random row
+#' test.main[12,] <- rep(0,ncol(test.main))
+#' test.main[,24] <- rep(0,nrow(test.main))
+#' proc.data <- remove.zeros(test.main,test.covariates)
+#' main <- proc.data$main #getting the relative abundance data frame
+#' covar <- proc.data$covariates #getting the covariate data frame
+#' MZILN::features.confirm(main,covar) #recheck the features of the results.
 
-remove.zeros <- function(df.main){
+remove.zeros <- function(df.main,df.covar){
+  df.covar <- df.covar[-which(rownames(df.covar) == rownames(df.main)[zero.sub(df.main)]),]
   df.main <- df.main[-zero.sub(df.main),-zero.taxa(df.main)]
-  return(df.main)
+  outputlist <- list()
+  outputlist[[2]] <- df.covar
+  outputlist[[1]] <- df.main
+  names(outputlist) <- c("main","covariates")
+  return(outputlist)
 }
 
 

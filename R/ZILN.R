@@ -58,6 +58,7 @@ MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam =
   n.sub <- nrow(df.main) #number of subjects
   #creating a localized version of the covariates data set depending upon which
   #covariates to be selected
+  taxa.num <- ncol(df.main)
   df.covariates <- covar.restriction(df.covar,covariates)
 
   #transformation of the data
