@@ -75,6 +75,7 @@ defining.row.2 <- function(x, env = parent.frame()){
 
 # generating the matrix a for one patient
 matrix.a.generation <- function(nonzero,env=parent.frame()){
+  taxa.num = env$taxa.num
   if (max(nonzero) == env$taxa.num){
     nonzero.loop <- nonzero[-length(nonzero)] #took off the last element
     matrix.a <- matrix(nrow = length(nonzero.loop), ncol = (env$taxa.num)-1)
