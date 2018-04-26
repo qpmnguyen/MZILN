@@ -24,3 +24,18 @@
 #'   \item{covar4}{Discrete}
 #' }
 "test.covariates"
+
+#' True covariate coefficients accompanying test data set \code{test.main}.
+#'
+#' A data set containing true coefficient values for all covariates (4 covariates) on
+#' taxa (259 taxa). This dataset is simulated by Dr. Zhigang Li.
+#'
+#' @format A data frame with 259 rows and 5 variables:
+#' \describe{
+#'   \item{Intercept}{Continuous}
+#'   \item{covar1}{Continuous}
+#'   \item{covar2}{Continuous}
+#'   \item{covar3}{Continuous}
+#'   \item{covar4}{Continuous}
+#' }
+"key"

@@ -12,7 +12,7 @@ Description: This multivariate zero-inflated logistic model is used to analyze m
     microbiome relative abundance data: compositionality, sparsity and high dimensionality.
     The model estimates relationship between covariates and individual taxa RAs using regression
     techniques. Details can be found at paper.
-Depends: R (>= 3.4.3)
+Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

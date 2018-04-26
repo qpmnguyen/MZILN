@@ -50,7 +50,7 @@
 #'
 
 MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam = 200,
-                      lam.min.ratio = 0.0001,
+                      lam.min.ratio = 0.001,
                       reg.method = 'mcp', n.folds = 5){
 
   log.data.full <- c() #initializing a main data function
@@ -143,5 +143,8 @@ MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam =
 
 
 #### end ZILN main function ----------------------------------------------####
+
+#### Support function for ZILN -------------------------------------------####
+#### end support function for ZILN ---------------------------------------####
 
 #### end main functions --------------------------------------------------####
