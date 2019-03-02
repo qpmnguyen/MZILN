@@ -4,8 +4,9 @@
 \alias{MZILN.main}
 \title{MZILN (Multivariate Zero inflated Logistic Normal Regression)}
 \usage{
-MZILN.main(df.main, df.covar, covariates = colnames(df.covar), n.lam = 200,
-  lam.min.ratio = 0.001, reg.method = "mcp", n.folds = 5)
+MZILN.main(df.main, df.covar, covariates = colnames(df.covar),
+  n.lam = 200, lam.min.ratio = 1e-04, reg.method = "mcp",
+  n.folds = 5)
 }
 \arguments{
 \item{df.main}{Data frame of relative abundance data}
