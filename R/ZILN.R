@@ -114,7 +114,12 @@ MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam =
   lambda.error <- as.data.frame(lambda.error)
   lambda.error$mean <- rowSums(lambda.error)/n.folds
   lambda.error$lambda <- lambda.values
+  #### end cross validation ####
   v <- which(lambda.error$mean == min(lambda.error$mean)) #lambda value with the lowest
+  if(v == row(lambda.error$mean)){
+
+  }
+
   #beta values
   beta <- as.vector(picasso.data$beta[,v])
   #generating the results
@@ -145,6 +150,40 @@ MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam =
 #### end ZILN main function ----------------------------------------------####
 
 #### Support function for ZILN -------------------------------------------####
+MZILN.crossval <- function(log.data.full, matrix.data.full, n.folds, n.lam,lambda.values){
+  shuffle <- sample(nrow(matrix.data.full)) #creating a shuffle pattern
+  log.data.full <- log.data.full[shuffle] #shuffle the log transformed data set.
+  matrix.data.full <- matrix.data.full[shuffle,] #shuffle matrix x similar to the one before
+  folds <- cut(seq(1:nrow(matrix.data.full)),breaks=n.folds,labels=FALSE)
+  lambda.error <- matrix(nrow = n.lam, ncol = n.folds)
+  for(i in (1:n.folds)){
+    #Segement your data by fold using the which() function
+    testIndexes <- which(folds==i,arr.ind=TRUE) #findexes for fold i
+    test.log <- log.data.full[testIndexes]
+    test.covar <- matrix.data.full[testIndexes,]
+    train.log <- log.data.full[-testIndexes]
+    train.covar <- matrix.data.full[-testIndexes,]
+    #set it to  lambda.values
+    picasso.train <- picasso::picasso(X = train.covar,Y = train.log,
+                                      lambda = lambda.values, family = 'gaussian',
+                                      method = reg.method, type.gaussian = 'naive',
+                                      standardize = FALSE, verbose = FALSE)
+    f <- file()
+    sink(file = f)
+    predict <- picasso::predict.gaussian(picasso.train, test.covar,
+                                         lambda.idx = c(1:n.lam), y.pred.idx = c(1:n.lam))
+    sink()
+    close(f)
+    for (l in (1:n.lam)){
+      lambda.error[l,i] <- (sum((predict[,l] - test.log)^2))/nrow(as.matrix(test.log))
+    }
+    lambda.error <- as.data.frame(lambda.error)
+    lambda.error$mean <- rowSums(lambda.error)/n.folds
+    lambda.error$lambda <- lambda.values
+    return(lambda.error)
+  }
+}
+
 #### end support function for ZILN ---------------------------------------####
 
 #### end main functions --------------------------------------------------####
