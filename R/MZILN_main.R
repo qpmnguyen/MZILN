@@ -149,8 +149,11 @@ MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam =
 
 #### end ZILN main function ----------------------------------------------####
 
-#### Support function for ZILN -------------------------------------------####
-MZILN.crossval <- function(log.data.full, matrix.data.full, n.folds, n.lam,lambda.values){
+#### cross validation MZILN -------------------------------------------####
+#' @title Cross-validation for MZILN
+#' @description Does k-fold cross-validation for MZILN, produces a plot and returns a value for lambda
+#' @export
+MZILN.cv <- function(log.data.full, matrix.data.full, n.folds, n.lam,lambda.values, reg.method = "mcp"){
   shuffle <- sample(nrow(matrix.data.full)) #creating a shuffle pattern
   log.data.full <- log.data.full[shuffle] #shuffle the log transformed data set.
   matrix.data.full <- matrix.data.full[shuffle,] #shuffle matrix x similar to the one before
@@ -184,6 +187,6 @@ MZILN.crossval <- function(log.data.full, matrix.data.full, n.folds, n.lam,lambd
   }
 }
 
-#### end support function for ZILN ---------------------------------------####
+#### end cross validation ---------------------------------------####
 
 #### end main functions --------------------------------------------------####

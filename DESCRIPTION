@@ -1,7 +1,7 @@
 Package: MZILN
 Type: Package
 Title: A Multivariate Zero-inflated Logistic Model
-Version: 0.0.0.9000
+Version: 0.0.1
 Date: 2018-03-21
 Authors@R: c(
     person("Quang", "Nguyen", email = "Quang.P.Nguyen.GR@dartmouth.edu",role = c('aut','cre')), 
@@ -11,7 +11,7 @@ Description: This multivariate zero-inflated logistic model is used to analyze m
     relative abundance (RA) data. The model takes into account three specific features of 
     microbiome relative abundance data: compositionality, sparsity and high dimensionality.
     The model estimates relationship between covariates and individual taxa RAs using regression
-    techniques. Details can be found at paper.
+    techniques. Details can be found at [paper](https://link.springer.com/article/10.1007/s12561-018-9219-2).
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
