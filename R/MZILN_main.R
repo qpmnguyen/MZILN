@@ -150,43 +150,67 @@ MZILN.main <- function(df.main, df.covar, covariates=colnames(df.covar), n.lam =
 #### end ZILN main function ----------------------------------------------####
 
 #### cross validation MZILN -------------------------------------------####
-#' @title Cross-validation for MZILN
-#' @description Does k-fold cross-validation for MZILN, produces a plot and returns a value for lambda
-#' @export
-MZILN.cv <- function(log.data.full, matrix.data.full, n.folds, n.lam,lambda.values, reg.method = "mcp"){
-  shuffle <- sample(nrow(matrix.data.full)) #creating a shuffle pattern
-  log.data.full <- log.data.full[shuffle] #shuffle the log transformed data set.
-  matrix.data.full <- matrix.data.full[shuffle,] #shuffle matrix x similar to the one before
-  folds <- cut(seq(1:nrow(matrix.data.full)),breaks=n.folds,labels=FALSE)
-  lambda.error <- matrix(nrow = n.lam, ncol = n.folds)
-  for(i in (1:n.folds)){
-    #Segement your data by fold using the which() function
-    testIndexes <- which(folds==i,arr.ind=TRUE) #findexes for fold i
-    test.log <- log.data.full[testIndexes]
-    test.covar <- matrix.data.full[testIndexes,]
-    train.log <- log.data.full[-testIndexes]
-    train.covar <- matrix.data.full[-testIndexes,]
-    #set it to  lambda.values
-    picasso.train <- picasso::picasso(X = train.covar,Y = train.log,
-                                      lambda = lambda.values, family = 'gaussian',
-                                      method = reg.method, type.gaussian = 'naive',
-                                      standardize = FALSE, verbose = FALSE)
-    f <- file()
-    sink(file = f)
-    predict <- picasso::predict.gaussian(picasso.train, test.covar,
-                                         lambda.idx = c(1:n.lam), y.pred.idx = c(1:n.lam))
-    sink()
-    close(f)
-    for (l in (1:n.lam)){
-      lambda.error[l,i] <- (sum((predict[,l] - test.log)^2))/nrow(as.matrix(test.log))
-    }
-    lambda.error <- as.data.frame(lambda.error)
-    lambda.error$mean <- rowSums(lambda.error)/n.folds
-    lambda.error$lambda <- lambda.values
-    return(lambda.error)
-  }
-}
 
+cv.MZILN <- function(proc.res, n.folds, n.lam, lambda.min.ratio, standardize, reg.method = "mcp"){
+  outcome <- proc.res$outcome
+  predictor <- proc.res$predictor
+  shuffle <- sample(1:nrow(outcome), size = nrow(outcome))
+  outcome <- outcome[shuffle]
+  predictor <- predictor[shuffle,]
+
+  if(reg.method %in% c("mcp","scad")){
+    cv.res <- cvPicasso(x = predictor, y = outcome, nfolds = n.folds, zeroSDCut = 10^-6, 
+                        lambda.min.ratio = 10^-3, method = reg.method, nLam = n.lam, standardize = standardize)
+  } else if (reg.method == "enet"){
+    cv.res <- 0
+  } else if (reg.method == "lasso"){
+    cv.res <- 0
+  } else if (reg.method == "alasso"){
+    cv.res <- 0
+  }
+  return(cv.res)
+}
 #### end cross validation ---------------------------------------####
+
+#### Pre-processing and transformation  ----------------------------------####
+MZILN.process <- function(df.main, df.covar, verbose = T){
+  if (verbose == T){
+    print("Begining pre-processing step...")
+  }
+  if (is.data.frame(df.main) == F){
+    df.main <- data.frame(df.main)
+  } else if (is.data.frame(df.covar) == F){
+    df.covar <- data.frame(df.covar)
+  }
+  zcheck <- zero.check(df.main)
+  if (nsubj(df.main) != nsubj(df.covar)) {
+    stop("The number of subjects is inconsistent between data frames")
+  }
+  if (verbose == T){
+    print(paste("The number of subjects is",nsubj(df.main)))
+    print("First 10 Subject IDs...")
+    print(utils::head(idsubj(df.main), n = 10L))
+    print(paste("Number of taxa", ntaxa(df.main)))
+    print("First 10 Taxa Names") 
+    print(utils::head(taxa.name(df.main), n = 10L))
+    print(paste("There are",length(zcheck$rzero), "subjects with no taxonomic abundances"))
+    print(paste("There are", length(zcheck$czero), "taxa with no presence across all samples"))
+  }
+  if(length(zcheck$rzero) > 0){
+    if (verbose == T){
+      print("Removing all zero rows...")
+    }
+    df.main <- df.main[-zcheck$rzero,]
+  } 
+  if (length(zcheck$czero) > 0){
+    if (verbose == T){
+      print("Removing all zero taxa...")
+    }
+    df.main <- df.main[,-zcheck$czero]
+  }
+  rm(zcheck)
+  transform <- MZILN.transformation(df.main, df.covar, verbose = verbose) 
+  return(transform)
+}
 
 #### end main functions --------------------------------------------------####
